@@ -1,0 +1,21 @@
+---
+- name: Stop app on non‑master nodes
+  shell: |
+    sudo rabbitmqctl stop_app
+  when: inventory_hostname != groups['rabbitmq_masters'][0]
+
+- name: Reset node (if joining)
+  shell: |
+    sudo rabbitmqctl reset
+  when: inventory_hostname != groups['rabbitmq_masters'][0]
+
+- name: Join cluster
+  shell: |
+    sudo rabbitmqctl join_cluster rabbit@{{ groups['rabbitmq_masters'][0] }}
+  when: inventory_hostname != groups['rabbitmq_masters'][0]
+  register: join_result
+  failed_when: false
+
+- name: Start app on all nodes
+  shell: |
+    sudo rabbitmqctl start_app

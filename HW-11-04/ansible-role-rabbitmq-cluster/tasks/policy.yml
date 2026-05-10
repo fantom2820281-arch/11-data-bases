@@ -1,0 +1,6 @@
+---
+- name: Set HA policy
+  shell: |
+    sudo rabbitmqctl set_policy ha-all ".*" '{"ha-mode":"all","ha-sync-mode":"automatic"}'
+  run_once: yes
+  delegate_to: "{{ groups['rabbitmq_masters'][0] }}"

@@ -1,0 +1,5 @@
+- hosts: rabbitmq_all
+  become: yes
+  roles:
+    - ansible-role-rabbitmq-cluster
+    

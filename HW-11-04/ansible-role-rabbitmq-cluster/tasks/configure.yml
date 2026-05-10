@@ -1,0 +1,25 @@
+---
+
+- name: Set erlang cookie
+  copy:
+    content: "{{ rabbitmq_erlang_cookie }}\n"
+    dest: "{{ rabbitmq_data_dir }}/.erlang.cookie"
+    owner: rabbitmq
+    group: rabbitmq
+    mode: '0400'
+  notify: restart rabbitmq
+
+- name: Configure rabbitmq-env.conf
+  template:
+    src: rabbitmq-env.conf.j2
+    dest: "{{ rabbitmq_config_dir }}/rabbitmq-env.conf"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart rabbitmq
+
+- name: Enable management plugins
+  rabbitmq_plugin:
+    names: "{{ rabbitmq_plugins }}"
+    state: enabled
+  notify: restart rabbitmq

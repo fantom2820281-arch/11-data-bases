@@ -1,0 +1,70 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+    pull_policy: never  
+    container_name: elasticsearch
+    environment:
+      - cluster.name=my-cluster-dima-es
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    networks:
+      - elk
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.9
+    pull_policy: never  
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  nginx:
+    image: nginx:1.21.1
+    pull_policy: never  
+    container_name: nginx-logstash
+    ports:
+      - "8080:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./nginx-logs:/var/log/nginx
+      # - ./nginx-logs:/var/log/nginx:ro 
+    networks:
+      - elk
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.9
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./nginx-logs:/var/log/nginx:ro
+    depends_on:
+      - elasticsearch
+      - nginx
+    networks:
+      - elk
+
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.9
+    pull_policy: never      
+    container_name: logstash
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      - ./nginx-logs:/var/log/nginx:ro
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+networks:
+  elk:
+    driver: bridge

@@ -1,0 +1,9 @@
+---
+rabbitmq_version: "3.12"
+rabbitmq_plugins:
+  - rabbitmq_management
+rabbitmq_cluster_name: "rabbit-cluster"
+rabbitmq_policy_name: "ha-all"
+rabbitmq_policy_pattern: ".*"
+rabbitmq_policy_definition: '{"ha-mode":"all","ha-sync-mode":"automatic"}'
+rabbitmq_erlang_cookie: "CHANGEME"  # лучше через vars или vault

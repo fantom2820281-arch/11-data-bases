@@ -1,0 +1,7 @@
+---
+rabbitmq_packages:
+  - rabbitmq-server
+  - python3-pika   # для тестов
+rabbitmq_service: rabbitmq-server
+rabbitmq_config_dir: /etc/rabbitmq
+rabbitmq_data_dir: /var/lib/rabbitmq

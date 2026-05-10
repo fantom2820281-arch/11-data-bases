@@ -1,0 +1,10 @@
+[rabbitmq_masters]
+rabbitmq-01 ansible_host=192.168.121.151 ansible_user=vagrant
+
+[rabbitmq_workers]
+rabbitmq-02 ansible_host=192.168.121.188 ansible_user=vagrant 
+rabbitmq-03 ansible_host=192.168.121.45 ansible_user=vagrant
+
+[rabbitmq_all:children]
+rabbitmq_masters
+rabbitmq_workers
