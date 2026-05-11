@@ -1,21 +1,22 @@
 
- 👨‍🎓 📖 🏫
+## 👨‍🎓 📖 🏫
 
 # Домашнее задание к занятию  «Базы данных их типы» 
 
 ### Студент: **Герасин Дмитрий Сергеевич**
 
-### Модуль: 
+### Модуль: Системы хранения и передачи данных.
+
+#### RabbitQL
 
 ##      HW-11-04
 
 ---
 ---
 
-Выполненой домашней работы
+Архитектура выполненной  домашней работы.
 
 ```bash
-
 .
 ├── ansible-playbook      # плейбук 
 ├── ansible-role-rabbitmq-cluster    # роль для установки и настройки кластера
@@ -28,18 +29,35 @@
 ```
 ---
 
+### ⚙️ Требования к системе
+
+```bash
+┌──────────────────────────────────────────────┐
+│ • Linux Mint / Ubuntu (22.04+)               │
+│ • python3     (  3.12.3  )                   | 
+│ • jinja version = (  3.1.2  )                |
+│ • 8+ ГБ свободной ОЗУ(  3ГБ для vm )         │
+| • libyaml = True                             |
+└──────────────────────────────────────────────┘
+```
+
 
 Для выполнения работы создадим три виртуальных машины
 vagrant
 
-![VMS](vms/Vagantfile)
+- [VMS](vms/Vagantfile)
 
-🚀 vagrant up 
+🚀  Запуск машин Rabbitmq-claster
+
+```
+ vagrant up 
+```
 
 ---
 
 
 ## Задание 1. Установка RabbitMQ
+
 Используя Vagrant или VirtualBox, создайте виртуальную машину и установите RabbitMQ. Добавьте management plug-in и зайдите в веб-интерфейс.
 
 Итогом выполнения домашнего задания будет приложенный скриншот веб-интерфейса RabbitMQ.
@@ -49,14 +67,14 @@ vagrant
 ### Решение
 
 
-Для выполнения задания установим и настроим сервис
+#### Для выполнения задания установим и настроим сервис
 
 ```
 sudo apt-get update -y
 sudo apt-get install -y python3 python3-pip rabbitmq-server
 sudo rabbitmq-plugins enable rabbitmq_management
 sudo systemctl restart rabbitmq-server
-pip3 install pika
+pip3 install pika  # для работы python scripts
 
 ```
 
@@ -197,11 +215,7 @@ sudo rabbitmqctl start_app
 
 виполним скрипт producer.py на обоих серверах
 
-![screenproducer](img/3.5.png)
-
-отключим ноду
-
-![noda1off](img/3.6.png)
+![screenproducer](img/3.5-vanscriptthreeserver.png)
 
 ---
 
@@ -248,11 +262,11 @@ ansible-role-rabbitmq-cluster/
 
 ![ping-ansible](img/4.2-pinghosts.png)
 
-![pleybook](img/4.3.png)
+![pleybook](img/4.3-pleybook.png)
 
 Скриншот web интерфейса кластера
 
-![web-rabbitmq](img/webclaster4.1.png)
+![web-rabbitmq](img/webcclaster4.1.png)
 
 ---
 ---
