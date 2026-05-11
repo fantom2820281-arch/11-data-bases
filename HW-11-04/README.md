@@ -45,7 +45,7 @@
 Для выполнения работы создадим три виртуальных машины
 vagrant
 
-- [VMS](vms/Vagantfile)
+- [VMS](HW-11-04/vms/)
 
 🚀  Запуск машин Rabbitmq-claster
 
@@ -112,7 +112,7 @@ sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 
 ### Решение
 
-Создаем и запускаем скрипт producer.py
+прописываем и запускаем скрипт producer.py
 
 
 ```python
@@ -130,7 +130,7 @@ connection.close()
 
 ```
 
-Создаем и запускаем скрипт consumer.py
+прописываем и запускаем скрипт consumer.py
 
 ```python
 
@@ -209,15 +209,23 @@ sudo rabbitmqctl reset
 sudo rabbitmqctl join_cluster rabbit@rabbitmq-01
 sudo rabbitmqctl start_app
 ```
-![screenstatus](img/web-politicalist.png)
+![screenstatus](img/3.3web-politicalist.png)
 
-![screenclaster](img/clasterstatus.png)
+![screenclaster](img/3.4-cooki.png)
 
-виполним скрипт producer.py на обоих серверах
+выполним скрипт producer.py на одном из серверов
+затем проверим на всех очередь
+
+```bash
+rabbitmqadmin get queue='hello'
+```
 
 ![screenproducer](img/3.5-vanscriptthreeserver.png)
 
 ---
+---
+
+дополнительное задание 
 
 ###  Задание 4. Ansible playbook
 
@@ -228,6 +236,8 @@ sudo rabbitmqctl start_app
 Пропишем роль для установки RabbitMQ 
 
 планируем архитектуру Роли
+
+```
 ansible-role-rabbitmq-cluster/
 .
 ├── defaults/
@@ -250,9 +260,20 @@ ansible-role-rabbitmq-cluster/
 └── meta/
     └── main.yml          # зависимости и информация о роли
 
+```s
+
 Прописываем все файлы и запускаем плейбук.
 
-![role-rabbit](ansible-role-rabbitmq-cluster/)
+- [role-rabbit](HW-11-04/ansible-role-rabbitmq-cluster/)
+
+командой
+
+```
+ansible-playbook -i inventory/hosts site.yml
+
+```
+
+
 
 скриншот статуса кластера
 
